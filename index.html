@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arjun R Pillai — SOC Analyst</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #21262d;
+      --accent: #58a6ff;
+      --accent2: #3fb950;
+      --warn: #d29922;
+      --danger: #f85149;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --tag-bg: #1f2937;
+      --radius: 8px;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,17,23,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-brand { font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .badge-avail {
+      background: rgba(63,185,80,0.15); color: var(--accent2);
+      border: 1px solid rgba(63,185,80,0.3);
+      border-radius: 20px; padding: 3px 10px; font-size: 0.75rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .badge-avail::before { content: ''; width: 7px; height: 7px; background: var(--accent2); border-radius: 50%; display: inline-block; }
+
+    /* HERO */
+    .hero {
+      max-width: 900px; margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+      display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: start;
+    }
+    .hero-title { font-size: 2.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.4rem; }
+    .hero-subtitle { color: var(--muted); font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 1.2rem; }
+    .hero-bio { color: var(--text); max-width: 580px; margin-bottom: 1.8rem; line-height: 1.75; }
+    .hero-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: var(--radius);
+      font-size: 0.85rem; font-weight: 500; text-decoration: none; cursor: pointer;
+      transition: all 0.2s; border: none;
+    }
+    .btn-primary { background: var(--accent); color: #0d1117; }
+    .btn-primary:hover { background: #79b8ff; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .avatar {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 700; color: #0d1117; flex-shrink: 0;
+    }
+
+    /* STATS */
+    .stats-bar {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stats-inner {
+      max-width: 900px; margin: 0 auto; padding: 1.5rem 2rem;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    /* SECTIONS */
+    .section { max-width: 900px; margin: 0 auto; padding: 3.5rem 2rem; }
+    .section-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+    }
+    .section-label {
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent);
+      background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.2);
+      padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .section-title { font-size: 1.3rem; font-weight: 600; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem;
+    }
+    .skill-card h4 { font-size: 0.85rem; color: var(--accent); margin-bottom: 0.75rem; font-family: var(--font-mono); }
+    .skill-card ul { list-style: none; }
+    .skill-card li { font-size: 0.83rem; color: var(--muted); padding: 3px 0; display: flex; align-items: center; gap: 6px; }
+    .skill-card li::before { content: '▸'; color: var(--accent2); font-size: 0.7rem; }
+
+    /* EDUCATION */
+    .edu-grid { display: grid; gap: 1rem; }
+    .edu-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .edu-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .edu-name { font-weight: 600; margin-bottom: 2px; }
+    .edu-degree { font-size: 0.9rem; color: var(--accent); }
+    .edu-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+    /* PROJECTS */
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 1.5rem; overflow: hidden;
+    }
+    .project-header {
+      padding: 1.4rem 1.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .project-id { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+    .project-title { font-size: 1.05rem; font-weight: 600; }
+    .project-meta { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .project-body { padding: 1.2rem 1.6rem; }
+    .project-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.7; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+    .tag {
+      background: var(--tag-bg); color: var(--muted);
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 2px 8px; font-size: 0.75rem; font-family: var(--font-mono);
+    }
+    .tag-accent { background: rgba(88,166,255,0.1); color: var(--accent); border-color: rgba(88,166,255,0.2); }
+
+    /* METRICS GRID */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1rem; }
+    .metric {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.75rem; text-align: center;
+    }
+    .metric-num { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+    .metric-label { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+
+    /* MITRE / COMPLIANCE */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem; }
+    .info-block { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.9rem 1rem; }
+    .info-block h5 { font-size: 0.75rem; color: var(--accent); font-family: var(--font-mono); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .info-block ul { list-style: none; }
+    .info-block li { font-size: 0.8rem; color: var(--muted); padding: 2px 0; }
+
+    /* CODE BLOCK */
+    .code-block {
+      background: #0d1117; border: 1px solid var(--border);
+      border-radius: 6px; padding: 1rem;
+      font-family: var(--font-mono); font-size: 0.78rem;
+      color: #79b8ff; overflow-x: auto; margin: 0.75rem 0;
+      white-space: pre;
+    }
+
+    /* KILL CHAIN */
+    .kill-chain { display: flex; flex-direction: column; gap: 4px; margin: 0.75rem 0; }
+    .kc-step {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted);
+    }
+    .kc-step::before { content: '→'; color: var(--accent); }
+
+    /* CERTS */
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .cert-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem;
+    }
+    .cert-issuer { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+    .cert-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+    .cert-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.2rem;
+      display: flex; align-items: center; gap: 1rem;
+      text-decoration: none; color: inherit; transition: border-color 0.2s;
+    }
+    .contact-card:hover { border-color: var(--accent); }
+    .contact-icon { font-size: 1.3rem; width: 36px; text-align: center; }
+    .contact-label { font-size: 0.75rem; color: var(--muted); }
+    .contact-value { font-size: 0.9rem; color: var(--text); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border); background: var(--surface);
+      padding: 2rem; text-align: center;
+    }
+    .footer-inner { max-width: 900px; margin: 0 auto; }
+    .footer-name { font-weight: 600; margin-bottom: 4px; }
+    .footer-sub { font-size: 0.83rem; color: var(--muted); }
+    .footer-badges { display: flex; justify-content: center; gap: 8px; margin: 0.75rem 0; flex-wrap: wrap; }
+    .footer-badge {
+      background: rgba(88,166,255,0.1); color: var(--accent);
+      border: 1px solid rgba(88,166,255,0.2); border-radius: 4px;
+      padding: 2px 8px; font-size: 0.75rem; font-family: var(--font-mono);
+    }
+    .footer-links { display: flex; justify-content: center; gap: 1rem; margin-top: 0.75rem; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); font-size: 0.83rem; text-decoration: none; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-loc { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; }
+
+    /* IR REPORT PAGES */
+    .pages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.5rem; margin-top: 0.75rem; }
+    .page-item {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.6rem 0.8rem; font-size: 0.78rem; color: var(--muted);
+    }
+    .page-num { color: var(--accent); font-family: var(--font-mono); font-weight: 700; }
+
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      nav .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">arjun_r_pillai</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <span class="badge-avail">Available · SOC Analyst L1 / Cybersecurity Analyst</span>
+</nav>
+
+<!-- HERO -->
+<div id="about" class="hero">
+  <div>
+    <div class="hero-title">Arjun R Pillai</div>
+    <div class="hero-subtitle">SOC Analyst · Incident Responder · Threat Hunter</div>
+    <p class="hero-bio">
+      EC-Council Certified SOC Analyst (CSA v2) and CICSA v3-certified professional with hands-on experience in
+      SIEM administration (Splunk, Wazuh), EDR deployment, intrusion detection (Snort IDS/IPS), and threat hunting.
+      I turn raw log noise into clear, actionable metrics — and map artifacts back across compliance and adversary models.
+    </p>
+    <div class="hero-links">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Contact</a>
+      <a href="https://linkedin.com" class="btn btn-outline">LinkedIn</a>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline">GitHub</a>
+    </div>
+  </div>
+  <div class="avatar">AR</div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Security Lab Documents</div></div>
+    <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Certifications &amp; Training</div></div>
+    <div class="stat"><div class="stat-num">1,464</div><div class="stat-label">Events Captured</div></div>
+    <div class="stat"><div class="stat-num">1yr</div><div class="stat-label">IT Operations Experience</div></div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills" class="section">
+  <div class="section-header">
+    <span class="section-label">Skills</span>
+    <span class="section-title">Technical Skills — Blue &amp; Red Team Capabilities</span>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h4>SIEM &amp; Detection</h4>
+      <ul>
+        <li>Wazuh XDR/SIEM</li>
+        <li>Splunk Enterprise</li>
+        <li>Alert triage &amp; rule tuning</li>
+        <li>Threat hunting</li>
+        <li>Log correlation</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <h4>Network Security</h4>
+      <ul>
+        <li>Wireshark / packet analysis</li>
+        <li>Snort IDS/IPS</li>
+        <li>UFW firewall config</li>
+        <li>nmap / arp-scan</li>
+        <li>DoS pattern recognition</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <h4>Offensive (Lab)</h4>
+      <ul>
+        <li>Hydra brute-force</li>
+        <li>hping3 flood attacks</li>
+        <li>SSH exploitation</li>
+        <li>Service enumeration</li>
+        <li>Honeypot deployment</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <h4>Frameworks</h4>
+      <ul>
+        <li>MITRE ATT&amp;CK Navigator</li>
+        <li>NIST 800-53</li>
+        <li>PCI-DSS</li>
+        <li>GDPR / HIPAA mapping</li>
+        <li>CIS Benchmarks</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <h4>Systems &amp; Tooling</h4>
+      <ul>
+        <li>Kali Linux</li>
+        <li>Ubuntu / Debian</li>
+        <li>Oracle VirtualBox</li>
+        <li>Python scripting</li>
+        <li>Bash &amp; systemctl</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <h4>Incident Response</h4>
+      <ul>
+        <li>Kill-chain reconstruction</li>
+        <li>IOC identification</li>
+        <li>Attack timeline analysis</li>
+        <li>FIM &amp; integrity monitoring</li>
+        <li>Compliance reporting</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="section" style="padding-top:0;">
+  <div class="section-header">
+    <span class="section-label">Education</span>
+    <span class="section-title">Academic Background</span>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <div>
+        <div class="edu-name">Mahatma Gandhi University</div>
+        <div class="edu-degree">Bachelor of Computer Applications (BCA)</div>
+        <div class="edu-tags">
+          <span class="tag">Computer Science</span>
+          <span class="tag">Information Technology</span>
+        </div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">🔐</div>
+      <div>
+        <div class="edu-name">RedTeam Hacker Academy</div>
+        <div class="edu-degree">CICSA — Certified ICS Cybersecurity Analyst</div>
+        <div class="edu-tags">
+          <span class="tag">Wazuh XDR/SIEM capstone</span>
+          <span class="tag">Incident response</span>
+          <span class="tag">Threat hunting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section" style="padding-top:0;">
+  <div class="section-header">
+    <span class="section-label">Projects</span>
+    <span class="section-title">Security Lab — Documented Lab Work</span>
+  </div>
+
+  <!-- LAB-AR -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <!-- FIX: Removed "CONFIDENTIAL" label — content is fully public on this portfolio -->
+        <div class="project-id">LAB-AR · June 18, 2026 · IR-2026-001</div>
+        <div class="project-title">Incident Response Report — Brute Force + Wazuh Active Response</div>
+        <div class="project-meta">Formal 14-page IR report documenting a complete detection-to-containment pipeline.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">IR Report ▶</a>
+    </div>
+    <div class="project-body">
+      <!-- FIX: Ubuntu 26.04 → Ubuntu 24.04 LTS throughout -->
+      <p class="project-desc">
+        Simulated SSH brute force (Hydra v9.4, 196 passwords) against Ubuntu 24.04 LTS, detected via Wazuh rules 5710 &amp; 5763,
+        auto-blocked via firewall-drop Active Response. Covers attack narrative, detection analysis, MITRE ATT&amp;CK mapping,
+        compliance, and remediation recommendations.
+      </p>
+      <div class="project-tags">
+        <span class="tag tag-accent">Wazuh v4.14.5</span>
+        <span class="tag tag-accent">Hydra v9.4</span>
+        <span class="tag">Active Response</span>
+        <span class="tag">Kali Linux</span>
+        <!-- FIX: Ubuntu 24.04 -->
+        <span class="tag">Ubuntu 24.04</span>
+        <span class="tag">iptables</span>
+        <span class="tag">SSH TCP/22</span>
+        <span class="tag">IR Report</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-num">196</div><div class="metric-label">Passwords Tried</div></div>
+        <div class="metric"><div class="metric-num">10</div><div class="metric-label">Rule 5710 Alerts</div></div>
+        <div class="metric"><div class="metric-num">4</div><div class="metric-label">Rule 5763 Brute Force</div></div>
+        <div class="metric"><div class="metric-num">1</div><div class="metric-label">Auto IP Block</div></div>
+        <div class="metric"><div class="metric-num">14</div><div class="metric-label">Report Pages</div></div>
+      </div>
+      <div class="info-block" style="margin-bottom:0.75rem;">
+        <h5>Incident Summary</h5>
+        <ul>
+          <li>ID: IR-2026-001 · June 18, 2026</li>
+          <li>Attacker: 192.168.1.2 (Kali Linux, Hydra v9.4)</li>
+          <!-- FIX: Ubuntu 24.04 -->
+          <li>Victim: 192.168.1.7 (Ubuntu 24.04, Agent 003)</li>
+          <li>SIEM: Wazuh v4.14.5 @ 192.168.1.18</li>
+          <li>Outcome: Detected + Auto-contained via iptables block</li>
+        </ul>
+      </div>
+      <div class="info-block" style="margin-bottom:0.75rem;">
+        <h5>Detection Pipeline</h5>
+        <ul>
+          <li>Rule 5710 — Non-existent user attempts · Medium · 10 hits</li>
+          <li>Rule 5763 — Brute force threshold · High · 4 hits → AR fires</li>
+          <li>firewall-drop executed on agent 003 via ossec.conf</li>
+          <li>iptables DROP confirmed · Kali: "Connection reset by peer"</li>
+        </ul>
+      </div>
+      <div class="two-col">
+        <div class="info-block">
+          <h5>MITRE ATT&amp;CK</h5>
+          <ul>
+            <li>T1110.001 — Password Guessing (Hydra, 196 candidates)</li>
+            <li>T1110.003 — Password Spraying (single user, large wordlist)</li>
+            <li>T1133 — External Remote Services (SSH port 22)</li>
+            <li>T1046 — Network Service Discovery (pre-attack recon)</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h5>Compliance Mapped</h5>
+          <ul>
+            <li>PCI-DSS — 10.2.4 / 10.2.5 / 10.6.1</li>
+            <li>NIST 800-53 — AU-14, AC-7, SI-4</li>
+            <li>HIPAA — §164.312(b) Audit controls</li>
+            <!-- FIX: GDPR citation format corrected -->
+            <li>GDPR — Art. 32(2), Art. 35(7)(d)</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:0.75rem;">
+        <div class="info-block">
+          <h5>IR Report — All 14 Pages</h5>
+          <div class="pages-grid">
+            <div class="page-item"><span class="page-num">P1</span> — Cover: IR-2026-001 metadata, attacker/victim IPs, outcome</div>
+            <div class="page-item"><span class="page-num">P2</span> — Executive Summary + Lab Setup (infrastructure table)</div>
+            <div class="page-item"><span class="page-num">P3</span> — Agent 003 confirmed active, Wazuh overview 57 medium alerts</div>
+            <div class="page-item"><span class="page-num">P4</span> — Attack execution: auth.log burst, Hydra 196 attempts</div>
+            <div class="page-item"><span class="page-num">P5</span> — Full incident timeline: 13:02 → 14:47, Hydra runs, AR fired</div>
+            <div class="page-item"><span class="page-num">P6</span> — Timeline continued: Rule 5763 AR trigger + block confirmed</div>
+            <div class="page-item"><span class="page-num">P7</span> — Detection: Rules 5710/5763 fired, Wazuh Rules manager evidence</div>
+            <div class="page-item"><span class="page-num">P8</span> — Alert stats: Rule 5710 (10 failures), PCI-DSS auto-mapped</div>
+            <div class="page-item"><span class="page-num">P9</span> — Threat Hunting dashboards: rule 5710 and 5763 per-rule views</div>
+            <div class="page-item"><span class="page-num">P10</span> — Log evidence: auth.log failure burst + Active Response config</div>
+            <div class="page-item"><span class="page-num">P11</span> — IR actions: ossec.conf firewall-drop config, iptables block verified</div>
+            <div class="page-item"><span class="page-num">P12</span> — MITRE ATT&amp;CK mapping + key findings: what worked / gaps</div>
+            <div class="page-item"><span class="page-num">P13</span> — Recommendations: detection hardening, infra hardening, next steps</div>
+            <div class="page-item"><span class="page-num">P14</span> — Appendix: Evidence summary E-01→E-10, references</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAB-001 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-001 · June 2026 · 24 screenshots</div>
+        <div class="project-title">SSH Brute Force Detection with Wazuh SIEM</div>
+        <div class="project-meta">Full red/blue team exercise — Wazuh v4.14.5, Hydra brute-force (262 passwords, 4 threads), complete MITRE ATT&amp;CK kill chain.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag tag-accent">Wazuh v4.14.5</span>
+        <!-- FIX: Consistent Hydra version — using v9.4 as per related labs; update if v9.6 is intentional -->
+        <span class="tag tag-accent">Hydra v9.4</span>
+        <span class="tag">nmap</span>
+        <span class="tag">arp-scan</span>
+        <!-- FIX: Ubuntu 24.04 -->
+        <span class="tag">Ubuntu 24.04</span>
+        <span class="tag">Kali Linux</span>
+        <span class="tag">MITRE ATT&amp;CK</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-num">1,464</div><div class="metric-label">Total Events</div></div>
+        <div class="metric"><div class="metric-num">1,327</div><div class="metric-label">Auth Failures</div></div>
+        <div class="metric"><div class="metric-num">284</div><div class="metric-label">Medium Alerts</div></div>
+        <div class="metric"><div class="metric-num">13</div><div class="metric-label">Auth Successes</div></div>
+        <div class="metric"><div class="metric-num">1</div><div class="metric-label">Critical Rule 40112</div></div>
+      </div>
+      <div class="info-block" style="margin-bottom:0.75rem;">
+        <h5>Lab Architecture</h5>
+        <ul>
+          <li>Attacker — Kali Linux @ 192.168.1.4 (Hydra, nmap, arp-scan)</li>
+          <!-- FIX: Ubuntu 24.04 -->
+          <li>Target — Ubuntu 24.04 @ 192.168.1.7 (OpenSSH 10.2p1)</li>
+          <li>SIEM — Wazuh Manager @ 192.168.1.18</li>
+          <li>Hypervisor — Oracle VirtualBox /24 host-only</li>
+        </ul>
+      </div>
+      <div class="kill-chain">
+        <div class="kc-step">arp-scan → 5 live hosts discovered in 2.03s</div>
+        <div class="kc-step">nmap -A → Wazuh server fingerprinted (osd-name)</div>
+        <div class="kc-step">Hydra -t4 → 262 fasttrack.txt passwords fired</div>
+        <div class="kc-step">Rule 40112 → compromise confirmed, PAM session opened</div>
+      </div>
+      <div class="two-col" style="margin-top:0.75rem;">
+        <div class="info-block">
+          <h5>MITRE ATT&amp;CK</h5>
+          <ul>
+            <li>T1110 — Brute Force</li>
+            <li>T1110.001 — Password Guessing</li>
+            <li>T1078 — Valid Accounts</li>
+            <li>T1021 — Remote Services SSH</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h5>Compliance Auto-Mapped</h5>
+          <ul>
+            <!-- FIX: GDPR citation format corrected -->
+            <li>GDPR — Art. 35(7)(d), Art. 32(2)</li>
+            <li>NIST 800-53 — AU-14, AC-7, SI-4</li>
+            <li>PCI-DSS — 10.2.4, 10.2.5, 11.4</li>
+            <li>HIPAA §164.312(b) · GPG13 7.1, 7.8</li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-block">hydra -l root -P /usr/share/wordlists/fasttrack.txt ssh://192.168.1.7 -t 4 -vV
+[INFO] Successful, password authentication is supported
+[ATTEMPT] target 192.168.1.7 – login "root" – pass "Spring2017" – 1 of 262
+... 262 attempts across 4 parallel threads ...
+rule.id: 40112  rule.level: 12
+rule.description: Multiple auth failures followed by a success
+data.srcip: 192.168.1.4  data.dstuser: ubuntu</div>
+    </div>
+  </div>
+
+  <!-- LAB-001b -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-001b · June 2026 · Incident Response Report</div>
+        <div class="project-title">Active Response — Brute Force Detection &amp; Automated IP Block</div>
+        <div class="project-meta">Extended the SSH Brute Force lab with Wazuh Active Response.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <p class="project-desc">
+        Configured firewall-drop rule on Rule 5763, simulated attack with Hydra (196 passwords, 5 threads),
+        confirmed automated IP block via iptables. Full detection-to-containment pipeline documented.
+      </p>
+      <div class="project-tags">
+        <span class="tag tag-accent">Wazuh v4.14.5</span>
+        <span class="tag tag-accent">Hydra v9.4</span>
+        <span class="tag">Kali Linux</span>
+        <!-- FIX: Ubuntu 24.04 -->
+        <span class="tag">Ubuntu 24.04 LTS</span>
+        <span class="tag">Active Response</span>
+        <span class="tag">iptables</span>
+        <span class="tag">SSH Brute Force</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-num">196</div><div class="metric-label">Passwords Tried</div></div>
+        <div class="metric"><div class="metric-num">14</div><div class="metric-label">Auth Alerts Fired</div></div>
+        <div class="metric"><div class="metric-num">2</div><div class="metric-label">Rules Triggered</div></div>
+        <div class="metric"><div class="metric-num">1</div><div class="metric-label">Auto IP Block</div></div>
+        <div class="metric"><div class="metric-num">5</div><div class="metric-label">Frameworks Mapped</div></div>
+      </div>
+      <div class="two-col">
+        <div class="info-block">
+          <h5>MITRE ATT&amp;CK</h5>
+          <ul>
+            <li>T1110.001 — Credential Access: Password Guessing</li>
+            <li>T1110.003 — Credential Access: Password Spraying</li>
+            <li>T1133 — Initial Access: External Remote Services</li>
+            <!-- FIX: T1046 tactic corrected from "Defense Evasion" to "Discovery" -->
+            <li>T1046 — Discovery: Network Service Discovery</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h5>Compliance Frameworks</h5>
+          <ul>
+            <li>PCI-DSS — 10.2.4, 10.2.5, 10.6.1</li>
+            <li>MITRE ATT&amp;CK — T1110.001, T1133</li>
+            <!-- FIX: GDPR citation corrected -->
+            <li>GDPR — Art. 32(2), Art. 35(7)(d)</li>
+            <li>NIST 800-53, HIPAA — auto-mapped via Wazuh</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAB-002 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-002 · Dec 2024</div>
+        <div class="project-title">Centralized Log Analysis with Splunk Enterprise</div>
+        <div class="project-meta">Splunk Enterprise 10.0.1 on Windows with Universal Forwarder on Kali.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <p class="project-desc">
+        Forwarding auth, syslog, and boot logs over port 9997. Real-time dashboards and SPL queries for threat detection.
+      </p>
+      <div class="project-tags">
+        <span class="tag tag-accent">Splunk Enterprise 10.0.1</span>
+        <span class="tag tag-accent">Universal Forwarder 9.3.2</span>
+        <span class="tag">Kali Linux</span>
+        <span class="tag">SPL</span>
+      </div>
+      <div class="info-block" style="margin-bottom:0.75rem;">
+        <h5>Architecture</h5>
+        <ul>
+          <li>Splunk Enterprise 10.0.1 on Windows 64-bit</li>
+          <li>Universal Forwarder 9.3.2 on Kali (DEB amd64)</li>
+          <li>Forwarding TCP port 9997 — firewall rule created</li>
+          <li>Monitors: /var/log/auth.log + /var/log/syslog</li>
+        </ul>
+      </div>
+      <div class="code-block">index=* host="vbox" | stats count by sourcetype
+index=* host="vbox" | top sourcetype limit=10
+index=* sourcetype="syslog" "boot"  -- boot event hunting</div>
+    </div>
+  </div>
+
+  <!-- LAB-003 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-003 · CICSA Capstone</div>
+        <div class="project-title">Wazuh XDR/SIEM Deployment &amp; Endpoint Security</div>
+        <div class="project-meta">Full Wazuh OVA v4.13 deployment — FIM, CIS Benchmark assessment, MITRE ATT&amp;CK mapping, PCI DSS compliance reporting.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag tag-accent">Wazuh OVA</span>
+        <span class="tag">FIM</span>
+        <span class="tag">PCI DSS</span>
+        <span class="tag">CIS Benchmark</span>
+        <span class="tag">MITRE ATT&amp;CK</span>
+      </div>
+      <div class="info-block">
+        <h5>CIS Benchmark Results — CIS Independent Linux v2.0.0</h5>
+        <ul>
+          <li>190 total checks · 87 passed · 96 failed · 7 not applicable</li>
+          <li>Compliance score: 47% — hardening recommendations documented</li>
+        </ul>
+      </div>
+      <div class="info-block" style="margin-top:0.75rem;">
+        <h5>FIM Findings</h5>
+        <ul>
+          <li>/etc/ld.so.cache — checksum changed (library tamper risk)</li>
+          <li>/etc/resolv.conf — DNS config modified</li>
+          <li>New auditd configs added: audit.rules, auditd.conf</li>
+          <li>Event spike: 48 events at 23:30 flagged as anomaly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAB-004 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-004 · Network IDS</div>
+        <div class="project-title">Snort IDS — Network Intrusion Detection &amp; Traffic Monitoring</div>
+        <div class="project-meta">Snort on Kali vs Ubuntu victim. Bridged networking, vulnerable services (SSH, FTP, Apache2), custom detection rules.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag tag-accent">Snort IDS/IPS</span>
+        <span class="tag">Kali Linux</span>
+        <span class="tag">Ubuntu</span>
+        <span class="tag">UFW</span>
+        <span class="tag">vsftpd</span>
+      </div>
+      <div class="code-block">sudo apt install openssh-server vsftpd apache2
+sudo ufw allow 22 &amp;&amp; sudo ufw allow 21 &amp;&amp; sudo ufw enable
+Status: active — 22, 21, 80 ALLOW Anywhere (IPv4 + IPv6)</div>
+    </div>
+  </div>
+
+  <!-- LAB-005 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-005 · Packet Analysis</div>
+        <div class="project-title">Wireshark SOC Lab — DoS Attack Detection &amp; Traffic Analysis</div>
+        <div class="project-meta">ICMP, UDP, and TCP FIN floods via hping3. 980,000+ packets captured across three attack vectors.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag tag-accent">Wireshark</span>
+        <span class="tag">hping3</span>
+        <span class="tag">UFW</span>
+        <span class="tag">Kali Linux</span>
+        <span class="tag">Ubuntu</span>
+      </div>
+      <div class="info-block">
+        <h5>Attack Vectors</h5>
+        <ul>
+          <li>ICMP Flood — 80,000+ echo requests captured</li>
+          <li>UDP Flood — 322,388 packets to port 53</li>
+          <li>TCP FIN Flood — 980,299 packets to port 80</li>
+        </ul>
+      </div>
+      <div class="info-block" style="margin-top:0.75rem;">
+        <h5>Countermeasures</h5>
+        <ul>
+          <li>Default deny incoming / allow outgoing policy</li>
+          <li>sudo ufw deny from 192.168.1.2 (attacker IP blocked)</li>
+          <li>UFW logging medium — /var/log/ufw.log verified</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAB-006 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-006 · Python Security Tool</div>
+        <div class="project-title">The Sentinel — Python File Integrity Monitor</div>
+        <div class="project-meta">SHA-256 FIM built in Python. Baselines a target directory, polls every 2 seconds, raises specific alerts for NEW, MODIFIED, and DELETED file events.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag tag-accent">Python 3</span>
+        <span class="tag">SHA-256</span>
+        <span class="tag">FIM</span>
+        <span class="tag">Kali Linux</span>
+      </div>
+      <div class="code-block">python3 sentinel.py
+● SENTINEL ACTIVE: Monitoring /home/kali/SentinelProject/vault
+■ NEW FILE: /home/kali/SentinelProject/vault/hacker.txt
+▲ MODIFIED: /home/kali/SentinelProject/vault/test.txt
+▲ MODIFIED: /home/kali/SentinelProject/vault/hacker.txt</div>
+    </div>
+  </div>
+
+  <!-- LAB-007 -->
+  <div class="project-card">
+    <div class="project-header">
+      <div>
+        <div class="project-id">LAB-007 · Deception Technology</div>
+        <div class="project-title">Active Decoy Deployment — Honeypot with PentBox</div>
+        <div class="project-meta">PentBox 1.8 honeypot on Port 80. Captured attacker IP, User-Agent, HTTP headers, and timestamps.</div>
+      </div>
+      <a href="https://github.com/arjunrajeevpillai" class="btn btn-outline" style="flex-shrink:0;">View Lab ›</a>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">
+        <span class="tag tag-accent">PentBox 1.8</span>
+        <span class="tag">Kali Linux</span>
+        <span class="tag">Port 80</span>
+        <span class="tag">Deception Tech</span>
+      </div>
+      <div class="code-block">HONEYPOT ACTIVATED ON PORT 80 (2026-02-24 12:49:46 +0530)
+INTRUSION ATTEMPT DETECTED! from 10.0.2.15:53480
+GET / HTTP/1.1
+Host: 10.0.2.15
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Firefox/140.0</div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" class="section" style="padding-top:0;">
+  <div class="section-header">
+    <span class="section-label">Certifications</span>
+    <span class="section-title">Credentials</span>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-issuer">EC-Council</div>
+      <div class="cert-name">Certified SOC Analyst (CSA v2)</div>
+      <div class="cert-desc">SOC operations, threat monitoring &amp; incident escalation</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">RedTeam Hacker Academy</div>
+      <div class="cert-name">CICSA v3 — Certified IT Infrastructure &amp; Cyber SOC Analyst</div>
+      <div class="cert-desc">Wazuh XDR/SIEM capstone · Threat hunting · Incident response</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">Google / Coursera</div>
+      <div class="cert-name">Connect and Protect: Networks and Network Security</div>
+      <div class="cert-desc">Network security fundamentals · Protocol analysis · Threat mitigation</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">Google / Coursera</div>
+      <div class="cert-name">Play It Safe: Manage Security Risks</div>
+      <div class="cert-desc">Risk management frameworks · NIST CSF · Security controls</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">NSDC / Skill India</div>
+      <div class="cert-name">Ethical Hacking with AI</div>
+      <div class="cert-desc">AI-assisted penetration testing · Offensive security concepts</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-issuer">ICM Computers (NCVT, Govt. of India)</div>
+      <div class="cert-name">Advanced Excel</div>
+      <div class="cert-desc">Data analysis, reporting &amp; automation with Microsoft Excel</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section" style="padding-top:0;">
+  <div class="section-header">
+    <span class="section-label">Contact</span>
+    <span class="section-title">Get in Touch</span>
+  </div>
+  <p style="color:var(--muted); margin-bottom:1.5rem;">Open to SOC L1 / Cybersecurity Analyst roles. Reach out via email, LinkedIn, or explore my lab work on GitHub.</p>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-icon">📞</div>
+      <div>
+        <div class="contact-label">Phone</div>
+        <div class="contact-value">+91 9567194113</div>
+      </div>
+    </div>
+    <!-- FIX: Email corrected — removed extra 'e' in "Rajeeve" → "Rajeev" -->
+    <a href="mailto:arjunrajeevpillai@gmail.com" class="contact-card">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-value">arjunrajeevpillai@gmail.com</div>
+      </div>
+    </a>
+    <a href="https://linkedin.com" class="contact-card">
+      <div class="contact-icon">💼</div>
+      <div>
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-value">Connect with me</div>
+      </div>
+    </a>
+    <a href="https://github.com/arjunrajeevpillai" class="contact-card">
+      <div class="contact-icon">🐙</div>
+      <div>
+        <div class="contact-label">GitHub</div>
+        <div class="contact-value">View my labs &amp; projects</div>
+      </div>
+    </a>
+    <div class="contact-card">
+      <div class="contact-icon">📍</div>
+      <div>
+        <div class="contact-label">Location</div>
+        <div class="contact-value">Kottayam, Kerala, India</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Arjun R Pillai</div>
+    <div class="footer-sub">SOC Analyst L1 · Threat Hunter · Incident Responder</div>
+    <div class="footer-badges">
+      <span class="footer-badge">CSA v2</span>
+      <span class="footer-badge">CICSA v3</span>
+      <span class="footer-badge">Open to Work</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://linkedin.com">LinkedIn Profile</a>
+      <a href="https://github.com/arjunrajeevpillai">GitHub Profile</a>
+    </div>
+    <div class="footer-loc">Arjun R Pillai · SOC Analyst · Kerala, India · Open to SOC L1 opportunities</div>
+  </div>
+</footer>
+
+</body>
+</html>
