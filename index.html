@@ -6,16 +6,16 @@
   <title>Arjun R Pillai — SOC Analyst</title>
   <style>
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --border: #21262d;
-      --accent: #58a6ff;
-      --accent2: #3fb950;
-      --warn: #d29922;
-      --danger: #f85149;
-      --text: #e6edf3;
-      --muted: #8b949e;
-      --tag-bg: #1f2937;
+      --bg: #f6f8fa;
+      --surface: #ffffff;
+      --border: #d0d7de;
+      --accent: #0969da;
+      --accent2: #1a7f37;
+      --warn: #9a6700;
+      --danger: #cf222e;
+      --text: #1f2328;
+      --muted: #57606a;
+      --tag-bg: #eaeef2;
       --radius: 8px;
       --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
       --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -33,7 +33,7 @@
     /* NAV */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(13,17,23,0.92);
+      background: rgba(246,248,250,0.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
@@ -68,8 +68,8 @@
       font-size: 0.85rem; font-weight: 500; text-decoration: none; cursor: pointer;
       transition: all 0.2s; border: none;
     }
-    .btn-primary { background: var(--accent); color: #0d1117; }
-    .btn-primary:hover { background: #79b8ff; }
+    .btn-primary { background: var(--accent); color: #ffffff; }
+    .btn-primary:hover { background: #0860c4; }
     .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
     .avatar {
@@ -132,6 +132,20 @@
     .edu-name { font-weight: 600; margin-bottom: 2px; }
     .edu-degree { font-size: 0.9rem; color: var(--accent); }
     .edu-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+    /* EXPERIENCE */
+    .exp-grid { display: grid; gap: 1rem; }
+    .exp-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem 1.6rem;
+    }
+    .exp-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+    .exp-role { font-weight: 600; font-size: 1.02rem; }
+    .exp-org { color: var(--accent); font-size: 0.9rem; }
+    .exp-period { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); background: var(--tag-bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+    .exp-list { list-style: none; }
+    .exp-list li { font-size: 0.85rem; color: var(--muted); padding: 3px 0; padding-left: 1rem; position: relative; line-height: 1.6; }
+    .exp-list li::before { content: '▸'; color: var(--accent2); position: absolute; left: 0; font-size: 0.7rem; top: 6px; }
 
     /* PROJECTS */
     .project-card {
@@ -258,6 +272,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#certifications">Certifications</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -394,6 +409,48 @@
           <span class="tag">Threat hunting</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section" style="padding-top:0;">
+  <div class="section-header">
+    <span class="section-label">Experience</span>
+    <span class="section-title">Professional Experience</span>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-card">
+      <div class="exp-top">
+        <div>
+          <div class="exp-role">SOC Analyst Intern</div>
+          <div class="exp-org">CyberXchange</div>
+        </div>
+        <span class="exp-period">May 2026 – Present</span>
+      </div>
+      <ul class="exp-list">
+        <li>Monitored SIEM alerts and security events to support threat detection and security operations.</li>
+        <li>Investigated suspicious activities including authentication anomalies, malicious indicators, and emerging threats.</li>
+        <li>Validated IOCs, CVEs, and attacker TTPs using CISA advisories, ISAC feeds, and vendor intelligence.</li>
+        <li>Documented investigation findings, escalation procedures, and incident response workflows.</li>
+        <li>Mapped threats to the MITRE ATT&amp;CK framework to improve analyst investigations; prepared weekly threat intelligence reports.</li>
+      </ul>
+    </div>
+    <div class="exp-card">
+      <div class="exp-top">
+        <div>
+          <div class="exp-role">Technical Support Engineer</div>
+          <div class="exp-org">TeknogenX Private Limited</div>
+        </div>
+        <span class="exp-period">May 2025 – May 2026</span>
+      </div>
+      <ul class="exp-list">
+        <li>Provided Windows endpoint administration and technical support for enterprise users.</li>
+        <li>Diagnosed TCP/IP, DNS, IP configuration, LAN connectivity, and operating system issues.</li>
+        <li>Managed incident tickets, documented troubleshooting steps, and maintained SLA compliance.</li>
+        <li>Supported Windows and Linux systems through software installation, hardware diagnostics, and user onboarding.</li>
+        <li>Collaborated with users to resolve technical issues while maintaining accurate support documentation.</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -888,7 +945,7 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Firefox/140.0</div>
       <div class="contact-icon">✉️</div>
       <div>
         <div class="contact-label">Email</div>
-        <div class="contact-value">arjunrajeevpillai@gmail.com</div>
+        <div class="contact-value">arjunrajeevepillai@gmail.com</div>
       </div>
     </a>
     <a href="https://linkedin.com" class="contact-card">
